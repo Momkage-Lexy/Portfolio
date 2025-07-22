@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Luna's Dreamscape</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Reuse the same CSS from the main page */
+        :root {
+            --cream: #F5F0E8;
+            --dusty-rose: #D4A6A6;
+            --sage: #A6B8A6;
+            --taupe: #B8A6A6;
+            --slate: #6D7B8D;
+            --dark-slate: #4A5568;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--cream);
+            color: var(--dark-slate);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header - same as main page */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+            background: rgba(245, 240, 232, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        header.scrolled {
+            padding: 10px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: var(--dusty-rose);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--slate);
+            font-weight: 300;
+            font-size: 1.1rem;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--dusty-rose);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--dusty-rose);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--dusty-rose);
+        }
+
+        /* Project Hero */
+        .project-hero {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 80px;
+            background: url('YOUR_PROJECT_HERO_BG.jpg') no-repeat center center/cover;
+        }
+
+        .project-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+
+        .project-hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            width: 100%;
+            padding: 40px;
+            background: rgba(212, 166, 166, 0.7);
+            border-radius: 10px;
+        }
+
+        .project-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .project-hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+        }
+
+        /* Project Details */
+        .project-details {
+            padding: 100px 0;
+        }
+
+        .project-section {
+            margin-bottom: 80px;
+        }
+
+        .project-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--dusty-rose);
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .project-section h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            bottom: -10px;
+            left: 0;
+            background: var(--dusty-rose);
+        }
+
+        .project-section p {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .project-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 400px;
+        }
+
+        .project-image:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-image:hover img {
+            transform: scale(1.03);
+        }
+
+        .project-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin: 50px 0;
+        }
+
+        .info-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-box h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--dusty-rose);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 50px;
+            color: var(--dusty-rose);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--taupe);
+            transform: translateX(-5px);
+        }
+
+        .back-link i {
+            margin-right: 10px;
+        }
+
+        /* Footer - same as main page */
+        footer {
+            background: var(--dark-slate);
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: var(--dusty-rose);
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .footer-links li {
+            margin: 0 15px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--dusty-rose);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .project-gallery, .project-info {
+                grid-template-columns: 1fr;
+            }
+
+            .project-hero-content {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--cream);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.5s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 20px 0;
+            }
+
+            .project-hero {
+                height: 50vh;
+            }
+
+            .project-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .project-section h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .project-hero {
+                height: 40vh;
+            }
+
+            .project-hero h1 {
+                font-size: 2rem;
+            }
+
+            .project-image {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Luna</a>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#portfolio">Portfolio</a></li>
+                    <li><a href="index.html#testimonials">Testimonials</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Project Hero -->
+    <section class="project-hero">
+        <div class="container">
+            <div class="project-hero-content">
+                <h1>Featured Projects</h1>
+                <p>A closer look at some of my favorite creative works, where dreams meet design.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Details -->
+    <section class="project-details">
+        <div class="container">
+            <!-- Project 1 -->
+            <div class="project-section">
+                <h2>Whispering Pines</h2>
+                <p>Whispering Pines is a boutique hotel nestled in the mountains, where guests escape to reconnect with nature. The branding needed to capture both the rugged beauty of the landscape and the refined comfort of the accommodations.</p>
+                
+                <div class="project-gallery">
+                    <div class="project-image">
+                        <!-- Replace with project image -->
+                        <img src="YOUR_PROJECT_1_IMAGE_1.jpg" alt="Whispering Pines Branding">
+                    </div>
+                    <div class="project-image">
+                        <!-- Replace with project image -->
+                        <img src="YOUR_PROJECT_1_IMAGE_2.jpg" alt="Whispering Pines Stationery">
+                    </div>
+                </div>
+                
+                <div class="project-info">
+                    <div class="info-box">
+                        <h3>Challenge</h3>
+                        <p>The hotel wanted to distinguish itself from typical rustic mountain lodges while still honoring its natural surroundings. We needed to create a brand that felt both elevated and approachable, luxurious yet authentic.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3>Solution</h3>
+                        <p>I developed a visual identity centered around custom illustrations of local flora and fauna, paired with a refined color palette inspired by the changing mountain light. The logo combines elegant typography with subtle organic elements.</p>
+                    </div>
+                </div>
+                
+                <p>The complete branding package included logo design, stationery, signage, website design, and marketing materials. Each piece maintains continuity while allowing for creative variations that keep the brand feeling fresh and dynamic.</p>
+            </div>
+            
+            <!-- Project 2 -->
+            <div class="project-section">
+                <h2>Moonflower Journal</h2>
+                <p>Moonflower Journal is a literary magazine celebrating poetic prose and delicate illustrations. The publication needed a design that would honor the written word while creating space for visual storytelling.</p>
+                
+                <div class="project-gallery">
+                    <div class="project-image">
+                        <!-- Replace with project image -->
+                        <img src="YOUR_PROJECT_2_IMAGE_1.jpg" alt="Moonflower Journal Cover">
+                    </div>
+                    <div class="project-image">
+                        <!-- Replace with project image -->
+                        <img src="YOUR_PROJECT_2_IMAGE_2.jpg" alt="Moonflower Journal Spread">
+                    </div>
+                </div>
+                
+                <div class="project-info">
+                    <div class="info-box">
+                        <h3>Challenge</h3>
+                        <p>The editors wanted each issue to feel like a cherished book while maintaining magazine functionality. The design needed to accommodate diverse content—from long-form essays to short poems—without feeling disjointed.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3>Solution</h3>
+                        <p>I created a flexible layout system with distinct treatments for different content types, unified by a consistent typographic hierarchy and delicate decorative elements. Each section opens with a custom illustrated initial cap.</p>
+                    </div>
+                </div>
+                
+                <p>The design has helped Moonflower Journal develop a devoted readership, with many subscribers keeping complete collections of the beautifully designed issues. The publication has been recognized in several design competitions for its elegant approach to literary magazine design.</p>
+            </div>
+            
+            <!-- Project 3 -->
+            <div class="project-section">
+                <h2>Velvet & Lace</h2>
+                <p>Velvet & Lace is a vintage-inspired fashion boutique specializing in romantic, feminine designs. Their e-commerce presence needed to reflect the tactile luxury of their garments while providing a seamless shopping experience.</p>
+                
+                <div class="project-gallery">
+                    <div class="project-image">
+                        <!-- Replace with project image -->
+                        <img src="YOUR_PROJECT_3_IMAGE_1.jpg" alt="Velvet & Lace Homepage">
+                    </div>
+                    <div class="project-image">
+                        <!-- Replace with project image -->
+                        <img src="YOUR_PROJECT_3_IMAGE_2.jpg" alt="Velvet & Lace Product Page">
+                    </div>
+                </div>
+                
+                <div class="project-info">
+                    <div class="info-box">
+                        <h3>Challenge</h3>
+                        <p>The website needed to convey the luxurious feel of the boutique's physical location while maintaining fast load times and mobile responsiveness. Product presentation was crucial to compensate for customers not being able to touch the fabrics.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3>Solution</h3>
+                        <p>I designed a rich visual experience with subtle animations that mimic fabric movement. High-quality imagery is complemented by detailed texture close-ups. The color scheme and typography evoke vintage elegance while maintaining modern readability.</p>
+                    </div>
+                </div>
+                
+                <p>Since launch, the website has contributed to a 40% increase in online sales and has become a key part of the brand's identity. The design successfully bridges the gap between digital convenience and the tactile luxury of vintage fashion.</p>
+            </div>
+            
+            <a href="index.html#portfolio" class="back-link"><i class="fas fa-arrow-left"></i> Back to Portfolio</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <a href="index.html" class="footer-logo">Luna</a>
+                <ul class="footer-links">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#portfolio">Portfolio</a></li>
+                    <li><a href="index.html#testimonials">Testimonials</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </div>
+            <p class="copyright">&copy; 2023 Luna's Dreamscape. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            // Mobile menu toggle
+            $('.menu-toggle').click(function() {
+                $('.nav-links').toggleClass('active');
+            });
+
+            // Smooth scrolling for navigation links
+            $('a[href*="#"]').on('click', function(e) {
+                if ($(this).attr('href') === '#') {
+                    e.preventDefault();
+                    return;
+                }
+                
+                if ($(this).attr('href').startsWith('#')) {
+                    e.preventDefault();
+                    
+                    $('html, body').animate(
+                        {
+                            scrollTop: $($(this).attr('href')).offset().top - 80,
+                        },
+                        500,
+                        'linear'
+                    );
+                    
+                    // Close mobile menu if open
+                    $('.nav-links').removeClass('active');
+                }
+            });
+
+            // Header scroll effect
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 100) {
+                    $('#header').addClass('scrolled');
+                } else {
+                    $('#header').removeClass('scrolled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

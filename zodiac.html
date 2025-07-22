@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lexy's Astrology</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+  /* Base & Reset */
+:root {
+  --main-text: #1a1a1a;
+  --accent: #5A8F7B;
+  --bg: #FAFAFA;
+  --card-bg: white;
+  --border: #e0e0e0;
+  --shadow: rgba(0, 0, 0, 0.05);
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg);
+  color: var(--main-text);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-weight: 600;
+  color: var(--main-text);
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--card-bg);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 6px var(--shadow);
+}
+
+#astro-nav {
+  font-size: 1.8rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Hero */
+.hero {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: #444;
+  margin-bottom: 1.5rem;
+}
+
+.hero .cta-btn {
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.hero .cta-btn:hover {
+  background-color: #487363;
+}
+
+/* Section Container */
+.section {
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Form */
+form {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 16px var(--shadow);
+}
+
+form .form-group {
+  margin-bottom: 1.2rem;
+}
+
+form label {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+form input[type="text"],
+form input[type="date"],
+form input[type="email"] {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+form input[type="submit"],
+form input[type="reset"] {
+  background-color: var(--accent);
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+form input[type="submit"]:hover,
+form input[type="reset"]:hover {
+  background-color: #487363;
+}
+
+/* Placements */
+.placement-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 10px var(--shadow);
+  transition: transform 0.2s;
+}
+
+.placement-card:hover {
+  transform: scale(1.01);
+}
+
+.placement-card h4 {
+  margin: 0 0 0.5rem;
+  color: var(--accent);
+}
+
+.placement-card p {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+/* Gallery */
+#gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.gallery-image {
+  max-width: 100px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.gallery-image:hover {
+  transform: scale(1.1);
+}
+
+/* Newsletter */
+.newsletter {
+  background-color: var(--card-bg);
+  border-top: 1px solid var(--border);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.newsletter input[type="email"] {
+  max-width: 300px;
+  margin: 0.5rem auto;
+  display: block;
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.newsletter input[type="button"] {
+  margin-top: 1rem;
+  background-color: var(--accent);
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.newsletter input[type="button"]:hover {
+  background-color: #487363;
+}
+
+/* Footer */
+footer {
+  background-color: #f3f3f3;
+  padding: 1.5rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #777;
+  margin-top: 3rem;
+}
+#placement-container .placement-card:nth-of-type(n+4) {
+  display: none;
+}
+
+#show-more-btn {
+  display: block;
+  margin: 0 auto;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container-fluid">
+      <h1 id="astro-nav">Lexy's Astrology</h1>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Unlock Your Celestial Blueprint</h1>
+    <p>Generate fun, fictional astrology charts with just your name and birth date</p>
+    <a href="#chart-section" class="cta-btn">Generate My Chart</a>
+  </section>
+
+  <section class="section" id="chart-section">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <form id="input-box">
+          <div class="form-group">
+            <label for="fname">First name:</label>
+            <input type="text" id="fname" name="fname" required />
+          </div>
+          <div class="form-group">
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required />
+          </div>
+          <fieldset>
+            <legend>Choose the signs to display</legend>
+            <div class="row">
+              <div class="col-sm-6">
+                <input type="checkbox" name="Sun" /> Sun<br />
+                <input type="checkbox" name="Moon" /> Moon<br />
+                <input type="checkbox" name="Mercury" /> Mercury<br />
+                <input type="checkbox" name="Venus" /> Venus<br />
+                <input type="checkbox" name="Mars" /> Mars<br />
+                <input type="checkbox" name="Jupiter" /> Jupiter<br />
+              </div>
+              <div class="col-sm-6">
+                <input type="checkbox" name="Saturn" /> Saturn<br />
+                <input type="checkbox" name="Uranus" /> Uranus<br />
+                <input type="checkbox" name="Neptune" /> Neptune<br />
+                <input type="checkbox" name="Pluto" /> Pluto<br />
+                <input type="checkbox" name="Lilith" /> Lilith<br />
+                <input type="checkbox" name="nNode" /> North Node<br />
+              </div>
+            </div>
+          </fieldset>
+          <input type="submit" value="Submit" disabled />
+          <input type="reset" value="Reset" id="reset" style="display: none;" />
+        </form>
+        <div id="chart" class="mt-4"></div>
+      </div>
+
+      <div id="placement-container" class="col-md-6">
+        <div class="placement-card">
+          <h4>Sun</h4>
+          <p>Your Sun sign symbolizes your fundamental personality, self-awareness,
+                  inherent preferences, romantic compatibility, and the manner in which you navigate the
+                  world. This astrological positioning illuminates both your natural strengths and the less
+                  apparent areas that may be challenging to perceive.</p>
+        </div>
+        <div class="placement-card">
+          <h4>Moon</h4>
+          <p>Your Moon sign symbolizes your emotional aspect, encompassing
+                  feelings, intuition, and memories. Additionally, it influences your connections with
+                  significant maternal figures, shaping your approach to nurturing and caring for others.</p>
+        </div>
+
+        <div class="placement-card">
+          <h4>Mercury</h4>
+          <p>Your Mercury sign represents the way you communicate, think, and
+                  process information. It reflects your intellectual style, how you express ideas, and your
+                  approach to learning and sharing knowledge. Mercury is associated with communication,
+                  language, and the mind. </p>
+        </div>
+        <div class="placement-card">
+          <h4>Venus</h4>
+          <p>Your Venus sign represents your approach to love, romance, beauty, and
+                  aesthetics. It influences your preferences in relationships, your values in matters of the
+                  heart, and the qualities you find attractive in others. Venus is associated with pleasure,
+                  harmony, and the way you express affection. </p>
+        </div>
+
+        <div class="placement-card">
+          <h4>Mars</h4>
+          <p>Your Mars sign influences the way you pursue your objectives, handle
+                  conflicts, and express your individuality. It reflects your determination, courage, and how
+                  you go after what you want in both professional and personal realms.</p>
+        </div>
+        <div class="placement-card">
+          <h4>Jupiter</h4>
+          <p>Your Jupiter sign influences your attitude toward risk, your capacity
+                  for learning and growth, and your overall sense of optimism about life. It also reflects the
+                  areas of life where you may experience luck or abundance.</p>
+        </div>
+
+        <div class="placement-card">
+          <h4>Saturn</h4>
+          <p>Your Saturn sign influences how you handle commitments, your sense of
+                  duty, and your attitudes towards authority and rules. It can also reflect the ways in which
+                  you build a foundation for success and establish a sense of security.</p>
+        </div>
+        <div class="placement-card">
+          <h4>Uranus</h4>
+          <p>Your Uranus sign represents the planet's influence on innovation,
+                  originality, rebellion, and sudden changes. Uranus is associated with unconventional
+                  thinking, breakthroughs, and the desire for freedom and individuality. </p>
+        </div>
+
+        <div class="placement-card">
+          <h4>Neptune</h4>
+          <p>Your Neptune sign represents the planet's influence on dreams,
+                  illusions, creativity, and spirituality. Neptune is associated with imagination, intuition,
+                  and the transcendental aspects of life.</p>
+        </div>
+        <div class="placement-card">
+          <h4>Pluto</h4>
+          <p>Your Pluto sign influences how you handle issues related to power,
+                  control, and transformation. It can also indicate the depth of your psychological processes
+                  and your willingness to explore the hidden aspects of your own psyche.</p>
+        </div>
+
+        <div class="placement-card">
+          <h4>Lilith</h4>
+          <p>The Lilith sign in your birth chart represents an unconscious,
+                  instinctive, and primal aspect of yourself. It's often linked to the shadow side, the parts
+                  of your nature that society or even you might find uncomfortable or challenging. Lilith is
+                  associated with non-conformity, sensuality, and a rejection of societal norms. It can also
+                  signify areas where you may feel marginalized or where you resist conforming to
+                  expectations.</p>
+        </div>
+        <div class="placement-card">
+          <h4>The North Node</h4>
+          <p>The North Node is often considered a point of destiny or life path in
+                  your birth chart. Its placement indicates the qualities, experiences, and traits that you
+                  are meant to develop and embrace during this lifetime. It suggests the areas of life where
+                  you can find fulfillment and growth.</p>
+        </div>
+          <button id="show-more-btn" class="btn btn-outline-secondary mt-3">↓ Show More</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="text-center mb-4">Explore the Zodiac</h2>
+    <div id="gallery">
+      <img class="gallery-image" src="images/aries.png" alt="Aries" data-sign="Aries" data-description="Aries is bold, brave, and driven by passion." />
+      <img class="gallery-image" src="images/taurus.png" alt="Taurus" data-sign="Taurus" data-description="Taurus values comfort, beauty, and loyalty." />
+      <img class="gallery-image" src="images/gemini.png" alt="Gemini" data-sign="Gemini" data-description="Gemini is curious, witty, and always learning." />
+      <img class="gallery-image" src="images/cancer.png" alt="Cancer" data-sign="Cancer" data-description="Cancer is nurturing, emotional, and intuitive." />
+      <img class="gallery-image" src="images/leo.png" alt="Leo" data-sign="Leo" data-description="Leo is confident, warm-hearted, and charismatic." />
+      <img class="gallery-image" src="images/virgo.png" alt="Virgo" data-sign="Virgo" data-description="Virgo is precise, practical, and deeply thoughtful." />
+
+    <img class="gallery-image" src="images/libra.png" alt="Libra" data-sign="Libra" data-description="Libra is charming, balanced, and beauty-loving. They seek harmony in relationships and environments."
+ />
+      <img class="gallery-image" src="images/scorpio.png" alt="Scorpio" data-sign="Scorpio" data-description="Scorpio is intense, private, and fiercely loyal. They value truth and transformation and feel deeply."
+ />
+      <img class="gallery-image" src="images/sag.png" alt="Sagittarius" data-sign="Sagittarius" data-description="Sagittarius is adventurous, honest, and philosophical. They seek truth, freedom, and new horizons."
+ />
+      <img class="gallery-image" src="images/cap.png" alt="Capricorn" data-sign="Capricorn" data-description="Capricorn is ambitious, responsible, and determined. They’re goal-oriented and quietly powerful."
+ />
+      <img class="gallery-image" src="images/aqua.png" alt="Aquarius" data-sign="Aquarius" data-description="Aquarius is unique, idealistic, and future-minded. They’re rebels, thinkers, and humanitarians at heart." />
+      <img class="gallery-image" src="images/pisces.png" alt="Pisces" data-sign="Pisces" data-description="Pisces is dreamy, empathetic, and creative. They’re intuitive and often inspired by emotions and beauty." />
+    </div>
+  </section>
+
+  <div id="signModal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="signModalTitle"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="signModalDesc"></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="newsletter">
+    <h2>Want Daily Astrology?</h2>
+    <p>Subscribe to our cosmic newsletter</p>
+    <form id="newsletter">
+      <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      <input type="button" value="Subscribe" id="test" />
+    </form>
+  </section>
+
+  <footer>
+    &copy; 2025 Lexy's Astrology
+  </footer>
+
+  <script>
+    $(function () {
+      $('.gallery-image').on('click', function () {
+        const sign = $(this).data('sign');
+        const desc = $(this).data('description');
+        $('#signModalTitle').text(sign);
+        $('#signModalDesc').text(desc);
+        const modal = new bootstrap.Modal(document.getElementById('signModal'));
+        modal.show();
+      });
+    });
+    $(document).ready(function () {
+  console.warn("Note: This demo is not astrologically accurate. UwU ^-^");
+$(function () {
+$('#show-more-btn').on('click', function () {
+    $('#placement-container .placement-card').slideDown();
+    $(this).fadeOut(); // hide the button
+});
+});
+
+  // Fade animation for gallery images
+  $(".gallery-image").hover(
+    function () {
+      $(this).css("opacity", 0.6);
+    },
+    function () {
+      $(this).css("opacity", 1);
+    }
+  );
+
+  // Display info about each sign when clicked
+  $(".gallery-image").click(function () {
+    const sign = $(this).clone();
+    const signInfo = $(this).next().clone().css("display", "block");
+    $(".astro-intro").html(sign).append(signInfo);
+  });
+
+  // Toggle placement descriptions
+  $(".placements").click(function () {
+    const info = $(this).children(".placement-info");
+    const visible = info.is(":visible");
+    $(".placement-info").hide();
+    if (!visible) info.show();
+  });
+
+  // Newsletter form validation
+  $("#newsletter").validate({
+    rules: { email: { required: true, email: true } },
+    messages: {
+      email: {
+        required: "Please enter your email address.",
+        email: "Your email must be in name@domain.com format."
+      }
+    }
+  });
+
+  $("#test").click(function () {
+    if ($("#email").valid()) {
+      const email = $("#email").val();
+      const message = `Your email: ${email} has been added to our newsletter!`;
+      showToast(message);
+    }
+  });
+
+  // Enable submit if fields are valid
+  function checkFormState() {
+    const nameFilled = $("#fname").val().trim() !== "";
+    const dobFilled = $("#dob").val().trim() !== "";
+    const checkboxChecked = $("#input-box input:checkbox:checked").length > 0;
+    $("input:submit").prop("disabled", !(nameFilled && dobFilled && checkboxChecked));
+  }
+
+  $("#fname, #dob").on("input", checkFormState);
+  $("#input-box input[type=checkbox]").on("change", checkFormState);
+
+  // Reset form state
+  $("input:reset").click(function () {
+    $("#chart").html("");
+    $(".main-header").show();
+    $("form:hidden").show();
+    $("#input-box")[0].reset();
+    $("input:reset").hide();
+    $("input:submit").prop("disabled", true);
+  });
+
+  // Submit form and generate chart
+  $("#input-box").submit(function (event) {
+    event.preventDefault();
+    const results = generateSigns();
+    displayResults(results);
+    $("#input-box").hide();
+    $("input:reset").show();
+  });
+
+  // Sign assignment logic
+  function generateSigns() {
+    const dob = new Date($("#dob").val());
+    return {
+      Sun: calculateSunSign(dob),
+      Moon: randomSign(),
+      Mercury: randomSign(),
+      Mars: randomSign(),
+      Venus: randomSign(),
+      Jupiter: randomSign(),
+      Saturn: randomSign(),
+      Uranus: randomSign(),
+      Neptune: randomSign(),
+      Pluto: randomSign(),
+      Lilith: randomSign(),
+      nNode: randomSign()
+    };
+  }
+
+  function calculateSunSign(dob) {
+    const month = dob.getMonth() + 1;
+    const day = dob.getDate();
+    const date = `${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+    const signs = [
+      { start: "03-21", end: "04-19", sign: "Aries" },
+      { start: "04-20", end: "05-20", sign: "Taurus" },
+      { start: "05-21", end: "06-20", sign: "Gemini" },
+      { start: "06-21", end: "07-22", sign: "Cancer" },
+      { start: "07-23", end: "08-22", sign: "Leo" },
+      { start: "08-23", end: "09-22", sign: "Virgo" },
+      { start: "09-23", end: "10-22", sign: "Libra" },
+      { start: "10-23", end: "11-21", sign: "Scorpio" },
+      { start: "11-22", end: "12-21", sign: "Sagittarius" },
+      { start: "12-22", end: "01-19", sign: "Capricorn" },
+      { start: "01-20", end: "02-18", sign: "Aquarius" },
+      { start: "02-19", end: "03-20", sign: "Pisces" }
+    ];
+    for (const sign of signs) {
+      if (date >= sign.start && date <= sign.end) return sign.sign;
+    }
+    return "Capricorn";
+  }
+
+  function randomSign() {
+    const signs = [
+      "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+      "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+    ];
+    return signs[Math.floor(Math.random() * signs.length)];
+  }
+
+  function displayResults(signResults) {
+    const name = $("#fname").val().trim();
+    let output = `<h2>${name}'s Natal Chart</h2><table class="myTable"><tr><th>Sign</th><th>Result</th></tr>`;
+    $("input:checkbox").each(function () {
+      const signName = $(this).attr("name");
+      if ($(this).is(":checked")) {
+        output += `<tr><td>${signName}</td><td>${signResults[signName]}</td></tr>`;
+      }
+    });
+    output += "</table>";
+    $(".main-header").hide();
+    $("#chart").html(output);
+  }
+
+  function showToast(message) {
+    const toast = $(`
+      <div class="toast align-items-center text-white bg-success border-0 position-fixed top-0 end-0 m-4" role="alert">
+        <div class="d-flex">
+          <div class="toast-body">${message}</div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+      </div>`);
+    $("body").append(toast);
+    const bsToast = new bootstrap.Toast(toast[0]);
+    bsToast.show();
+    setTimeout(() => toast.remove(), 5000);
+  }
+});
+  </script>
+</body>
+</html>
