@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Details | Luna's Dreamscape</title>
+    <title>Designs | Lexy's Dreamscape</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -367,6 +367,74 @@
                 height: 300px;
             }
         }
+
+        .project-image {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(106, 106, 106, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        }
+
+        .project-image:hover .overlay {
+        opacity: 1;
+        }
+
+        .view-button {
+        padding: 10px 20px;
+        background-color: var(--dusty-rose);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        }
+
+        .view-button:hover {
+        background-color: var(--slate);
+        }
+
+        .modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+        display: block;
+        margin: 5% auto;
+        max-width: 90%;
+        max-height: 80vh;
+        border-radius: 10px;
+        }
+
+        .close {
+        position: absolute;
+        top: 30px;
+        right: 40px;
+        color: #fff;
+        font-size: 2rem;
+        font-weight: bold;
+        cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -374,7 +442,7 @@
     <header id="header">
         <div class="container">
             <nav>
-                <a href="index.html" class="logo">Luna</a>
+                <a href="index.html" class="logo">Lexy</a>
                 <div class="menu-toggle">
                     <i class="fas fa-bars"></i>
                 </div>
@@ -382,7 +450,6 @@
                     <li><a href="index.html#home">Home</a></li>
                     <li><a href="index.html#about">About</a></li>
                     <li><a href="index.html#portfolio">Portfolio</a></li>
-                    <li><a href="index.html#testimonials">Testimonials</a></li>
                     <li><a href="index.html#contact">Contact</a></li>
                 </ul>
             </nav>
@@ -393,7 +460,7 @@
     <section class="project-hero">
         <div class="container">
             <div class="project-hero-content">
-                <h1>Featured Projects</h1>
+                <h1>Creative Projects</h1>
                 <p>A closer look at some of my favorite creative works, where dreams meet design.</p>
             </div>
         </div>
@@ -403,98 +470,75 @@
     <section class="project-details">
         <div class="container">
             <!-- Project 1 -->
-            <div class="project-section">
-                <h2>Whispering Pines</h2>
-                <p>Whispering Pines is a boutique hotel nestled in the mountains, where guests escape to reconnect with nature. The branding needed to capture both the rugged beauty of the landscape and the refined comfort of the accommodations.</p>
+            <div class="project-section quimbys" id="quimbys">
+                <h2>Quimby's Books</h2>
+                <p>Quimby's is a "Victorian flavored" bookshop soon to open in Independence, Oregon. The shop is located in the historic district of town and will offer all types of books with a specialty in victorian era content. Since this business is in development I decided to draw up some mock design plans for their website</p>
                 
                 <div class="project-gallery">
                     <div class="project-image">
-                        <!-- Replace with project image -->
-                        <img src="YOUR_PROJECT_1_IMAGE_1.jpg" alt="Whispering Pines Branding">
+                        <img src="images/quimbys.png" alt="Quimby's landing page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/quimbys.png">View Full Size</button>
+                        </div>
                     </div>
                     <div class="project-image">
-                        <!-- Replace with project image -->
-                        <img src="YOUR_PROJECT_1_IMAGE_2.jpg" alt="Whispering Pines Stationery">
+                        <img src="images/qmarketing.png" alt="Quimby's design sheet">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/qmarketing.png">View Full Size</button>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="project-info">
-                    <div class="info-box">
-                        <h3>Challenge</h3>
-                        <p>The hotel wanted to distinguish itself from typical rustic mountain lodges while still honoring its natural surroundings. We needed to create a brand that felt both elevated and approachable, luxurious yet authentic.</p>
-                    </div>
-                    <div class="info-box">
-                        <h3>Solution</h3>
-                        <p>I developed a visual identity centered around custom illustrations of local flora and fauna, paired with a refined color palette inspired by the changing mountain light. The logo combines elegant typography with subtle organic elements.</p>
-                    </div>
-                </div>
-                
-                <p>The complete branding package included logo design, stationery, signage, website design, and marketing materials. Each piece maintains continuity while allowing for creative variations that keep the brand feeling fresh and dynamic.</p>
             </div>
             
             <!-- Project 2 -->
-            <div class="project-section">
-                <h2>Moonflower Journal</h2>
-                <p>Moonflower Journal is a literary magazine celebrating poetic prose and delicate illustrations. The publication needed a design that would honor the written word while creating space for visual storytelling.</p>
+            <div class="project-section" id="ovenbird">
+                <h2>Ovenbird Bakery</h2>
+                <p>Ovenbird Bakery is a long standing local business in my town. Their online presence ebbs and flows, and currently no website is active. These are mock plans for a website for them and a potential creative plan for other online marketing use.</p>
                 
                 <div class="project-gallery">
                     <div class="project-image">
-                        <!-- Replace with project image -->
-                        <img src="YOUR_PROJECT_2_IMAGE_1.jpg" alt="Moonflower Journal Cover">
+                        <img src="images/ovenbird.png" alt="Ovenbird landing page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/ovenbird.png">View Full Size</button>
+                        </div>
                     </div>
                     <div class="project-image">
-                        <!-- Replace with project image -->
-                        <img src="YOUR_PROJECT_2_IMAGE_2.jpg" alt="Moonflower Journal Spread">
+                        <img src="images/obmarketing.png" alt="ovenbird design sheet">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/obmarketing.png">View Full Size</button>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="project-info">
-                    <div class="info-box">
-                        <h3>Challenge</h3>
-                        <p>The editors wanted each issue to feel like a cherished book while maintaining magazine functionality. The design needed to accommodate diverse content—from long-form essays to short poems—without feeling disjointed.</p>
-                    </div>
-                    <div class="info-box">
-                        <h3>Solution</h3>
-                        <p>I created a flexible layout system with distinct treatments for different content types, unified by a consistent typographic hierarchy and delicate decorative elements. Each section opens with a custom illustrated initial cap.</p>
-                    </div>
-                </div>
-                
-                <p>The design has helped Moonflower Journal develop a devoted readership, with many subscribers keeping complete collections of the beautifully designed issues. The publication has been recognized in several design competitions for its elegant approach to literary magazine design.</p>
             </div>
             
             <!-- Project 3 -->
-            <div class="project-section">
-                <h2>Velvet & Lace</h2>
-                <p>Velvet & Lace is a vintage-inspired fashion boutique specializing in romantic, feminine designs. Their e-commerce presence needed to reflect the tactile luxury of their garments while providing a seamless shopping experience.</p>
+            <div class="project-section" id="fairyfloss">
+                <h2>FairyFloss</h2>
+                <p>FairyFloss is an imaginary cotton candy food truck with locations all over Oregon. They wanted to refresh their webpage utilizing the bright, colorful (&sweet) nature of their work.</p>
                 
                 <div class="project-gallery">
                     <div class="project-image">
-                        <!-- Replace with project image -->
-                        <img src="YOUR_PROJECT_3_IMAGE_1.jpg" alt="Velvet & Lace Homepage">
+                        <img src="images/fairyfloss.png" alt="fairyfloss landing page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/fairyfloss.png">View Full Size</button>
+                        </div>
                     </div>
                     <div class="project-image">
-                        <!-- Replace with project image -->
-                        <img src="YOUR_PROJECT_3_IMAGE_2.jpg" alt="Velvet & Lace Product Page">
+                        <img src="images/ffmarketing.png" alt="fairyfloss design sheet">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/ffmarketing.png">View Full Size</button>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="project-info">
-                    <div class="info-box">
-                        <h3>Challenge</h3>
-                        <p>The website needed to convey the luxurious feel of the boutique's physical location while maintaining fast load times and mobile responsiveness. Product presentation was crucial to compensate for customers not being able to touch the fabrics.</p>
-                    </div>
-                    <div class="info-box">
-                        <h3>Solution</h3>
-                        <p>I designed a rich visual experience with subtle animations that mimic fabric movement. High-quality imagery is complemented by detailed texture close-ups. The color scheme and typography evoke vintage elegance while maintaining modern readability.</p>
-                    </div>
-                </div>
-                
-                <p>Since launch, the website has contributed to a 40% increase in online sales and has become a key part of the brand's identity. The design successfully bridges the gap between digital convenience and the tactile luxury of vintage fashion.</p>
-            </div>
             
             <a href="index.html#portfolio" class="back-link"><i class="fas fa-arrow-left"></i> Back to Portfolio</a>
         </div>
     </section>
+
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -505,11 +549,10 @@
                     <li><a href="index.html#home">Home</a></li>
                     <li><a href="index.html#about">About</a></li>
                     <li><a href="index.html#portfolio">Portfolio</a></li>
-                    <li><a href="index.html#testimonials">Testimonials</a></li>
                     <li><a href="index.html#contact">Contact</a></li>
                 </ul>
             </div>
-            <p class="copyright">&copy; 2023 Luna's Dreamscape. All rights reserved.</p>
+            <p class="copyright">&copy; 2025 Lexy's Dreamscape. All rights reserved.</p>
         </div>
     </footer>
 
@@ -549,6 +592,23 @@
                     $('#header').addClass('scrolled');
                 } else {
                     $('#header').removeClass('scrolled');
+                }
+            });
+
+            // Modal logic
+            $(document).on('click', '.view-button', function () {
+                const imgSrc = $(this).data('img');
+                $('#modalImage').attr('src', imgSrc);
+                $('#imageModal').fadeIn();
+                });
+
+                $('.close').click(function () {
+                $('#imageModal').fadeOut();
+                });
+
+                $(window).click(function (e) {
+                if ($(e.target).is('#imageModal')) {
+                    $('#imageModal').fadeOut();
                 }
             });
         });
