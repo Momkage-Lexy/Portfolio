@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSU | Lexy's Dreamscape</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Reuse the same CSS from the main page */
+        :root {
+            --cream: #F5F0E8;
+            --dusty-rose: #D4A6A6;
+            --sage: #A6B8A6;
+            --taupe: #B8A6A6;
+            --slate: #6D7B8D;
+            --dark-slate: #4A5568;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--cream);
+            color: var(--dark-slate);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header - same as main page */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+            background: rgba(245, 240, 232, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        header.scrolled {
+            padding: 10px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: var(--dusty-rose);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--slate);
+            font-weight: 300;
+            font-size: 1.1rem;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--dusty-rose);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--dusty-rose);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--dusty-rose);
+        }
+
+        /* Project Hero */
+        .project-hero {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 80px;
+            background: url('YOUR_PROJECT_HERO_BG.jpg') no-repeat center center/cover;
+        }
+
+        .project-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+
+        .project-hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            width: 100%;
+            padding: 40px;
+            background: rgba(212, 166, 166, 0.7);
+            border-radius: 10px;
+        }
+
+        .project-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .project-hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+        }
+
+        /* Project Details */
+        .project-details {
+            padding: 100px 0;
+        }
+
+        .project-section {
+            margin-bottom: 80px;
+        }
+
+        .project-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--dusty-rose);
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .project-section h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            bottom: -10px;
+            left: 0;
+            background: var(--dusty-rose);
+        }
+
+        .project-section p {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .project-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 400px;
+        }
+
+        .project-image:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-image:hover img {
+            transform: scale(1.03);
+        }
+
+        .project-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin: 50px 0;
+        }
+
+        .info-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-box h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--dusty-rose);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 50px;
+            color: var(--dusty-rose);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--taupe);
+            transform: translateX(-5px);
+        }
+
+        .back-link i {
+            margin-right: 10px;
+        }
+
+        /* Footer - same as main page */
+        footer {
+            background: var(--dark-slate);
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: var(--dusty-rose);
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .footer-links li {
+            margin: 0 15px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--dusty-rose);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .project-gallery, .project-info {
+                grid-template-columns: 1fr;
+            }
+
+            .project-hero-content {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--cream);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.5s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 20px 0;
+            }
+
+            .project-hero {
+                height: 50vh;
+            }
+
+            .project-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .project-section h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .project-hero {
+                height: 40vh;
+            }
+
+            .project-hero h1 {
+                font-size: 2rem;
+            }
+
+            .project-image {
+                height: 300px;
+            }
+        }
+
+        .project-image {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(106, 106, 106, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        }
+
+        .project-image:hover .overlay {
+        opacity: 1;
+        }
+
+        .view-button {
+        padding: 10px 20px;
+        background-color: var(--dusty-rose);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        }
+
+        .view-button:hover {
+        background-color: var(--slate);
+        }
+
+        .modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+        display: block;
+        margin: 5% auto;
+        max-width: 90%;
+        max-height: 80vh;
+        border-radius: 10px;
+        }
+
+        .close {
+        position: absolute;
+        top: 30px;
+        right: 40px;
+        color: #fff;
+        font-size: 2rem;
+        font-weight: bold;
+        cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Lexy</a>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#portfolio">Portfolio</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Project Hero -->
+    <section class="project-hero">
+        <div class="container">
+            <div class="project-hero-content">
+                <h1>Oregon State University</h1>
+                <p>A closer look at some of my favorite projects at Oregon State University.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Details -->
+    <section class="project-details">
+        <div class="container">
+            <!-- Project 1 -->
+            <div class="project-section">
+                <h2>Benny Bot | EdSignts</h2>
+                <p>Public facing marketing page for new chatbot "Benny", this page is coming soon!</p>
+                
+                <div class="project-gallery">
+                    <div class="project-image">
+                        <img src="images/Benny.png" alt="Benny Landing Page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/benny.png">View Full Size</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project 2 -->
+            <div class="project-section">
+                <h2>Our Stories</h2>
+                <p>A hub for alumni and students blog posts</p>
+                <a href="https://osucascades.edu/our-stories">View the live site</a>
+                
+                <div class="project-gallery">
+                    <div class="project-image">
+                        <img src="images/stories.png" alt="Our stories landing page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/stories.png">View Full Size</button>
+                        </div>
+                    </div>
+                    <div class="project-image">
+                        <img src="images/stories2.png" alt="story layout">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/stories2.png">View Full Size</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project 3 -->
+            <div class="project-section">
+                <h2>Academic Pages</h2><br>
+                <a href="https://osucascades.edu/mat">View the live site</a>
+                <div class="project-gallery">
+                    <div class="project-image">
+                        <img src="images/academics.png" alt="Academic landing page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/academics.png">View Full Size</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="project-section">
+                <h2>Laselles Stewart Center</h2><br>
+                <a href="https://solutions.oregonstate.edu/lasells-stewart-center">View the live site</a>
+                <div class="project-gallery">
+                    <div class="project-image">
+                        <img src="images/lsc.png" alt="LSC landing page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/lsc.png">View Full Size</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 5 -->
+            <div class="project-section">
+                <h2>OSU Assist</h2><br>
+                <a href="https://assist.oregonstate.edu/historical-context">View the live site</a>
+                <div class="project-gallery">
+                    <div class="project-image">
+                        <img src="images/assist.png" alt="Assist landing page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/assist.png">View Full Size</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 6 -->
+            <div class="project-section">
+                <h2>FAST</h2><br>
+                <a href="https://fast-engine.org/">View the live site</a>
+                <div class="project-gallery">
+                    <div class="project-image">
+                        <img src="images/fast.png" alt="FAST landing page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/fast.png">View Full Size</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 7 -->
+            <div class="project-section">
+                <h2>AGU 2025 Booth Data Collection Application</h2><br>
+                <div class="project-gallery">
+                    <div class="project-image">
+                        <img src="images/app1.png" alt="app page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/app1.png">View Full Size</button>
+                        </div>
+                    </div>
+                    
+                    <div class="project-image">
+                        <img src="images/app2.png" alt="app page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/app2.png">View Full Size</button>
+                        </div>
+                    </div>
+
+                    <div class="project-image">
+                        <img src="images/app3.png" alt="app page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/app3.png">View Full Size</button>
+                        </div>
+                    </div>
+
+                    <div class="project-image">
+                        <img src="images/app4.png" alt="app page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/app4.png">View Full Size</button>
+                        </div>
+                    </div>
+
+                    <div class="project-image">
+                        <img src="images/app5.png" alt="app page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/app5.png">View Full Size</button>
+                        </div>
+                    </div>
+
+                    <div class="project-image">
+                        <img src="images/app6.png" alt="app page">
+                        <div class="overlay">
+                            <button class="view-button" data-img="images/app6.png">View Full Size</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="index.html#portfolio" class="back-link"><i class="fas fa-arrow-left"></i> Back to Portfolio</a>
+        </div>
+    </section>
+
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <a href="index.html" class="footer-logo">Luna</a>
+                <ul class="footer-links">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#portfolio">Portfolio</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </div>
+            <p class="copyright">&copy; 2025 Lexy's Dreamscape. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            // Mobile menu toggle
+            $('.menu-toggle').click(function() {
+                $('.nav-links').toggleClass('active');
+            });
+
+            // Smooth scrolling for navigation links
+            $('a[href*="#"]').on('click', function(e) {
+                if ($(this).attr('href') === '#') {
+                    e.preventDefault();
+                    return;
+                }
+                
+                if ($(this).attr('href').startsWith('#')) {
+                    e.preventDefault();
+                    
+                    $('html, body').animate(
+                        {
+                            scrollTop: $($(this).attr('href')).offset().top - 80,
+                        },
+                        500,
+                        'linear'
+                    );
+                    
+                    // Close mobile menu if open
+                    $('.nav-links').removeClass('active');
+                }
+            });
+
+            // Header scroll effect
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 100) {
+                    $('#header').addClass('scrolled');
+                } else {
+                    $('#header').removeClass('scrolled');
+                }
+            });
+
+            // Modal logic
+            $(document).on('click', '.view-button', function () {
+                const imgSrc = $(this).data('img');
+                $('#modalImage').attr('src', imgSrc);
+                $('#imageModal').fadeIn();
+                });
+
+                $('.close').click(function () {
+                $('#imageModal').fadeOut();
+                });
+
+                $(window).click(function (e) {
+                if ($(e.target).is('#imageModal')) {
+                    $('#imageModal').fadeOut();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
